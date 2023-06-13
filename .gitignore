@@ -12,3 +12,5 @@ build/
 config/local.yaml
 config/prod.yaml
 config/test.yaml
+
+assets/pairwise.json
