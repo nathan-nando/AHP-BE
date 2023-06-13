@@ -1,0 +1,18 @@
+server:
+  name:
+  version:
+  host:
+  port:
+  app_mode:
+  db_mode:
+db:
+  sql:
+    driver:
+    host:
+    name:
+    port:
+    user:
+    password:
+  mongodb:
+    uri:
+    db:
