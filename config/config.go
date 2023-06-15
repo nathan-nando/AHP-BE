@@ -32,7 +32,7 @@ type Config struct {
 	} `mapstructure:"db"`
 }
 
-func NewConfig(appMode string) *Config {
+func New(appMode string) *Config {
 	cfg := &Config{}
 	viper.AddConfigPath("./config")
 	viper.SetConfigName(appMode)

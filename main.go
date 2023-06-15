@@ -9,7 +9,7 @@ import (
 func main() {
 	mode := cmd.Init()
 
-	cfg := config.NewConfig(mode.AppMode)
+	cfg := config.New(mode.AppMode)
 
 	dbMode := mode.DbMode
 
