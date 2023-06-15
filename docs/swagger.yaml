@@ -1,4 +1,370 @@
+definitions:
+  dto.CreateCollectionRequest:
+    properties:
+      description:
+        type: string
+      final_score_is_calculated:
+        type: boolean
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      score_is_calculated:
+        type: boolean
+    type: object
+  dto.CreateCollectionResponse:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      final_score_is_calculated:
+        type: boolean
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      score_is_calculated:
+        type: boolean
+    type: object
+  dto.CreateCollectionResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.CreateCollectionResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.DeleteCollectionResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  dto.DeleteCollectionResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.DeleteCollectionResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.FindCollectionByIDResponse:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      final_score_is_calculated:
+        type: boolean
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      score_is_calculated:
+        type: boolean
+    type: object
+  dto.FindCollectionByIDResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.FindCollectionByIDResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.FindCollectionsResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/model.CollectionModel'
+            type: array
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.UpdateCollectionRequest:
+    properties:
+      description:
+        type: string
+      final_score_is_calculated:
+        type: boolean
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      score_is_calculated:
+        type: boolean
+    required:
+    - id
+    type: object
+  dto.UpdateCollectionResponse:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      final_score_is_calculated:
+        type: boolean
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      score_is_calculated:
+        type: boolean
+    type: object
+  dto.UpdateCollectionResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.UpdateCollectionResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  model.CollectionModel:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      final_score_is_calculated:
+        type: boolean
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      score_is_calculated:
+        type: boolean
+    type: object
+  response.Meta:
+    properties:
+      message:
+        default: "true"
+        type: string
+      success:
+        default: true
+        type: boolean
+    type: object
+  response.errorResponse:
+    properties:
+      error:
+        type: string
+      meta:
+        $ref: '#/definitions/response.Meta'
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /collection:
+    get:
+      consumes:
+      - application/json
+      description: Get All Collections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FindCollectionsResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get All Collections
+      tags:
+      - collection
+    patch:
+      consumes:
+      - application/json
+      description: Update collection
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCollectionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateCollectionResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update collection
+      tags:
+      - collection
+    post:
+      consumes:
+      - application/json
+      description: Create collection
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCollectionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateCollectionResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Create collection
+      tags:
+      - collection
+  /collection/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete collection
+      parameters:
+      - description: id path
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteCollectionResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Delete collection
+      tags:
+      - collection
+    get:
+      consumes:
+      - application/json
+      description: Get Collection By CollectionID
+      parameters:
+      - description: id path
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FindCollectionByIDResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Collection By CollectionID
+      tags:
+      - collection
 swagger: "2.0"

@@ -11,13 +11,13 @@ import (
 )
 
 type RepositoryMysqlImpl struct {
-	db  *gorm.DB
+	Db  *gorm.DB
 	log *logrus.Logger
 	cfg *config.Config
 }
 
 func New(log *logrus.Logger, cfg *config.Config) *RepositoryMysqlImpl {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", cfg.Db.Sql.User, cfg.Db.Sql.Password, cfg.Db.Sql.Host, cfg.Db.Sql.Port, cfg.Db.Sql.Name)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", cfg.Db.Sql.User, cfg.Db.Sql.Password, cfg.Db.Sql.Host, cfg.Db.Sql.Port, cfg.Db.Sql.Name)
 
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:                       dsn,
@@ -33,12 +33,12 @@ func New(log *logrus.Logger, cfg *config.Config) *RepositoryMysqlImpl {
 	}
 
 	return &RepositoryMysqlImpl{
-		db:  db,
+		Db:  db,
 		log: log,
 		cfg: cfg,
 	}
 }
 
 func (r *RepositoryMysqlImpl) CollectionRepository() collection.Repository {
-	return repoMySQL.New(r.db)
+	return repoMySQL.New(r.Db)
 }
