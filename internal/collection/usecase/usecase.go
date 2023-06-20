@@ -7,6 +7,7 @@ import (
 	"ahp-be/pkg/response"
 	"context"
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -64,6 +65,9 @@ func (s *Service) FindByID(ctx context.Context, payload *dto.FindCollectionByIDR
 	data, err := s.repo.FindByID(ctx, &payload.ID)
 
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
 		return nil, response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
 	}
 

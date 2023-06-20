@@ -8,6 +8,7 @@ import (
 	"ahp-be/internal/model"
 	"ahp-be/internal/repository"
 	"ahp-be/internal/repository/mysql"
+	"ahp-be/pkg/constants"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -23,6 +24,7 @@ type Api struct {
 }
 
 func New(cfg *config.Config, dbMode string) *Api {
+	docs.SwaggerInfo.Title = fmt.Sprintf("%s", cfg.Server.Name)
 	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port)
 	docs.SwaggerInfo.Version = fmt.Sprintf("%s", cfg.Server.Version)
 
@@ -30,19 +32,21 @@ func New(cfg *config.Config, dbMode string) *Api {
 
 	var repo *mysql.RepositoryMysqlImpl
 
-	if dbMode == "mysql" {
+	if dbMode == constants.Mysql {
 		repo = mysql.New(log, cfg)
-		log.Info("DB MODE = MYSQL")
-	} else if dbMode == "postgresql" {
-		log.Info("DB MODE = POSTGRESQL")
+		log.Info(fmt.Sprintf("DB MODE = %s", constants.Mysql))
+	} else if dbMode == constants.Postgresql {
+		log.Info(fmt.Sprintf("DB MODE = %s", constants.Postgresql))
 	} else {
-		log.Info("DB MODE = MONGODB")
+		log.Info(fmt.Sprintf("DB MODE = %s", constants.Mongodb))
 	}
 
 	routes := echo.New()
 	middleware.Init(routes)
+
 	RegisterHandler(routes, repo)
 	RegisterRepository(repo, log)
+
 	return &Api{
 		repository: repo,
 		cfg:        cfg,
