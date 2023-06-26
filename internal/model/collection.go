@@ -12,12 +12,13 @@ type Collection struct {
 	FinalScoreIsCalculated bool    `json:"final_score_is_calculated"`
 	Latitude               float64 `json:"latitude"`
 	Longitude              float64 `json:"longitude"`
+	Center                 float64 `json:"center"`
 }
 
 type CollectionModel struct {
 	BaseModel
 	Collection
-	Alternatives []AlternativeModel `json:"-" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
+	Alternatives []AlternativeModel `json:"alternatives" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
 }
 
 func (CollectionModel) TableName() string {
