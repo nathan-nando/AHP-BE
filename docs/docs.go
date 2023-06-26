@@ -16,6 +16,256 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/alternative": {
+            "post": {
+                "description": "Create alternative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Create alternative",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateAlternativeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateAlternativeResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update alternative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Update alternative",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAlternativeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAlternativeResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/alternative/collection/{id}": {
+            "get": {
+                "description": "Get All Alternatives By CollectionID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Get All Alternatives By CollectionID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id path",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FindAlternativesByIDCollectionResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/alternative/{id}": {
+            "get": {
+                "description": "Get Collection By AlternativeID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Get Collection By AlternativeID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id path",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FindAlternativeByIDResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete alternative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Delete alternative",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id path",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteAlternativeResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/collection": {
             "get": {
                 "description": "Get All Collections",
@@ -257,9 +507,83 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CreateAlternativeRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateAlternativeResponse": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "final_scores": {
+                    "$ref": "#/definitions/model.FinalScoreModel"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "scores": {
+                    "$ref": "#/definitions/model.ScoreModel"
+                }
+            }
+        },
+        "dto.CreateAlternativeResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.CreateAlternativeResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
         "dto.CreateCollectionRequest": {
             "type": "object",
             "properties": {
+                "center": {
+                    "type": "number"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -283,6 +607,15 @@ const docTemplate = `{
         "dto.CreateCollectionResponse": {
             "type": "object",
             "properties": {
+                "alternatives": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AlternativeModel"
+                    }
+                },
+                "center": {
+                    "type": "number"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -334,6 +667,30 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.DeleteAlternativeResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.DeleteAlternativeResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.DeleteAlternativeResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
         "dto.DeleteCollectionResponse": {
             "type": "object",
             "properties": {
@@ -358,9 +715,91 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.FindAlternativeByIDResponse": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "final_scores": {
+                    "$ref": "#/definitions/model.FinalScoreModel"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "scores": {
+                    "$ref": "#/definitions/model.ScoreModel"
+                }
+            }
+        },
+        "dto.FindAlternativeByIDResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.FindAlternativeByIDResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "dto.FindAlternativesByIDCollectionResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.AlternativeModel"
+                            }
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
         "dto.FindCollectionByIDResponse": {
             "type": "object",
             "properties": {
+                "alternatives": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AlternativeModel"
+                    }
+                },
+                "center": {
+                    "type": "number"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -431,12 +870,89 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdateAlternativeRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateAlternativeResponse": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "final_scores": {
+                    "$ref": "#/definitions/model.FinalScoreModel"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "scores": {
+                    "$ref": "#/definitions/model.ScoreModel"
+                }
+            }
+        },
+        "dto.UpdateAlternativeResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.UpdateAlternativeResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
         "dto.UpdateCollectionRequest": {
             "type": "object",
             "required": [
                 "id"
             ],
             "properties": {
+                "center": {
+                    "type": "number"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -463,6 +979,15 @@ const docTemplate = `{
         "dto.UpdateCollectionResponse": {
             "type": "object",
             "properties": {
+                "alternatives": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AlternativeModel"
+                    }
+                },
+                "center": {
+                    "type": "number"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -514,9 +1039,56 @@ const docTemplate = `{
                 }
             }
         },
+        "model.AlternativeModel": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "final_scores": {
+                    "$ref": "#/definitions/model.FinalScoreModel"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "scores": {
+                    "$ref": "#/definitions/model.ScoreModel"
+                }
+            }
+        },
         "model.CollectionModel": {
             "type": "object",
             "properties": {
+                "alternatives": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AlternativeModel"
+                    }
+                },
+                "center": {
+                    "type": "number"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -549,6 +1121,64 @@ const docTemplate = `{
                 },
                 "score_is_calculated": {
                     "type": "boolean"
+                }
+            }
+        },
+        "model.FinalScoreModel": {
+            "type": "object",
+            "properties": {
+                "alternative_id": {
+                    "type": "string"
+                },
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "final_score": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "rank": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ScoreModel": {
+            "type": "object",
+            "properties": {
+                "alternative_id": {
+                    "type": "string"
+                },
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
                 }
             }
         },

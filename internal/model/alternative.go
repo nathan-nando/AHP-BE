@@ -14,11 +14,13 @@ type Alternative struct {
 type AlternativeModel struct {
 	BaseModel
 	Alternative
-	CollectionID string `json:"collection_id" gorm:"size:191"`
+	CollectionID string          `json:"collection_id" gorm:"size:191"`
+	Score        ScoreModel      `json:"scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
+	FinalScore   FinalScoreModel `json:"final_scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
 }
 
 func (AlternativeModel) TableName() string {
-	return "collections"
+	return "alternatives"
 }
 
 func (m *AlternativeModel) BeforeCreate(tx *gorm.DB) (err error) {

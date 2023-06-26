@@ -1,6 +1,54 @@
 definitions:
+  dto.CreateAlternativeRequest:
+    properties:
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+    type: object
+  dto.CreateAlternativeResponse:
+    properties:
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      final_scores:
+        $ref: '#/definitions/model.FinalScoreModel'
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      scores:
+        $ref: '#/definitions/model.ScoreModel'
+    type: object
+  dto.CreateAlternativeResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.CreateAlternativeResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
   dto.CreateCollectionRequest:
     properties:
+      center:
+        type: number
       description:
         type: string
       final_score_is_calculated:
@@ -16,6 +64,12 @@ definitions:
     type: object
   dto.CreateCollectionResponse:
     properties:
+      alternatives:
+        items:
+          $ref: '#/definitions/model.AlternativeModel'
+        type: array
+      center:
+        type: number
       created_at:
         type: string
       created_by:
@@ -49,6 +103,21 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  dto.DeleteAlternativeResponse:
+    properties:
+      id:
+        type: string
+    type: object
+  dto.DeleteAlternativeResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.DeleteAlternativeResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
   dto.DeleteCollectionResponse:
     properties:
       id:
@@ -64,8 +133,61 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  dto.FindAlternativeByIDResponse:
+    properties:
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      final_scores:
+        $ref: '#/definitions/model.FinalScoreModel'
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      scores:
+        $ref: '#/definitions/model.ScoreModel'
+    type: object
+  dto.FindAlternativeByIDResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.FindAlternativeByIDResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.FindAlternativesByIDCollectionResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/model.AlternativeModel'
+            type: array
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
   dto.FindCollectionByIDResponse:
     properties:
+      alternatives:
+        items:
+          $ref: '#/definitions/model.AlternativeModel'
+        type: array
+      center:
+        type: number
       created_at:
         type: string
       created_by:
@@ -111,8 +233,58 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  dto.UpdateAlternativeRequest:
+    properties:
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+    required:
+    - id
+    type: object
+  dto.UpdateAlternativeResponse:
+    properties:
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      final_scores:
+        $ref: '#/definitions/model.FinalScoreModel'
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      scores:
+        $ref: '#/definitions/model.ScoreModel'
+    type: object
+  dto.UpdateAlternativeResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.UpdateAlternativeResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
   dto.UpdateCollectionRequest:
     properties:
+      center:
+        type: number
       description:
         type: string
       final_score_is_calculated:
@@ -132,6 +304,12 @@ definitions:
     type: object
   dto.UpdateCollectionResponse:
     properties:
+      alternatives:
+        items:
+          $ref: '#/definitions/model.AlternativeModel'
+        type: array
+      center:
+        type: number
       created_at:
         type: string
       created_by:
@@ -165,8 +343,39 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  model.AlternativeModel:
+    properties:
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      final_scores:
+        $ref: '#/definitions/model.FinalScoreModel'
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      name:
+        type: string
+      scores:
+        $ref: '#/definitions/model.ScoreModel'
+    type: object
   model.CollectionModel:
     properties:
+      alternatives:
+        items:
+          $ref: '#/definitions/model.AlternativeModel'
+        type: array
+      center:
+        type: number
       created_at:
         type: string
       created_by:
@@ -190,6 +399,44 @@ definitions:
       score_is_calculated:
         type: boolean
     type: object
+  model.FinalScoreModel:
+    properties:
+      alternative_id:
+        type: string
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      final_score:
+        type: number
+      id:
+        type: string
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      rank:
+        type: integer
+    type: object
+  model.ScoreModel:
+    properties:
+      alternative_id:
+        type: string
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+    type: object
   response.Meta:
     properties:
       message:
@@ -209,6 +456,171 @@ definitions:
 info:
   contact: {}
 paths:
+  /alternative:
+    patch:
+      consumes:
+      - application/json
+      description: Update alternative
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAlternativeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateAlternativeResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update alternative
+      tags:
+      - alternative
+    post:
+      consumes:
+      - application/json
+      description: Create alternative
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateAlternativeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateAlternativeResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Create alternative
+      tags:
+      - alternative
+  /alternative/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete alternative
+      parameters:
+      - description: id path
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteAlternativeResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Delete alternative
+      tags:
+      - alternative
+    get:
+      consumes:
+      - application/json
+      description: Get Collection By AlternativeID
+      parameters:
+      - description: id path
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FindAlternativeByIDResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Collection By AlternativeID
+      tags:
+      - alternative
+  /alternative/collection/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get All Alternatives By CollectionID
+      parameters:
+      - description: id path
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FindAlternativesByIDCollectionResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get All Alternatives By CollectionID
+      tags:
+      - alternative
   /collection:
     get:
       consumes:

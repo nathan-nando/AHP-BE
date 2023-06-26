@@ -14,8 +14,8 @@ func New(db *gorm.DB) *CollectionRepositoryImpl {
 	return &CollectionRepositoryImpl{db: db}
 }
 
-func (c *CollectionRepositoryImpl) Create(ctx context.Context, e *model.CollectionModel) (*model.CollectionModel, error) {
-	err := c.db.Create(e).
+func (r *CollectionRepositoryImpl) Create(ctx context.Context, e *model.CollectionModel) (*model.CollectionModel, error) {
+	err := r.db.Create(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err
@@ -24,10 +24,10 @@ func (c *CollectionRepositoryImpl) Create(ctx context.Context, e *model.Collecti
 	return e, nil
 }
 
-func (c *CollectionRepositoryImpl) Finds(ctx context.Context) ([]model.CollectionModel, error) {
+func (r *CollectionRepositoryImpl) Finds(ctx context.Context) ([]model.CollectionModel, error) {
 	var datas []model.CollectionModel
 
-	err := c.db.Find(&datas).WithContext(ctx).Error
+	err := r.db.Find(&datas).WithContext(ctx).Error
 
 	if err != nil {
 		return datas, err
@@ -35,10 +35,10 @@ func (c *CollectionRepositoryImpl) Finds(ctx context.Context) ([]model.Collectio
 	return datas, nil
 }
 
-func (c *CollectionRepositoryImpl) FindByID(ctx context.Context, id *string) (*model.CollectionModel, error) {
+func (r *CollectionRepositoryImpl) FindByID(ctx context.Context, id *string) (*model.CollectionModel, error) {
 	var data model.CollectionModel
 
-	err := c.db.Where("id = ?", id).First(&data).
+	err := r.db.Where("id = ?", id).First(&data).
 		WithContext(ctx).Error
 
 	if err != nil {
@@ -48,10 +48,10 @@ func (c *CollectionRepositoryImpl) FindByID(ctx context.Context, id *string) (*m
 	return &data, nil
 }
 
-func (c *CollectionRepositoryImpl) FindAlternatives(ctx context.Context, id *string) ([]model.AlternativeModel, error) {
+func (r *CollectionRepositoryImpl) FindAlternatives(ctx context.Context, id *string) ([]model.AlternativeModel, error) {
 	var datas []model.AlternativeModel
 
-	err := c.db.Where("collection_id = ?", id).Find(&datas).WithContext(ctx).Error
+	err := r.db.Where("collection_id = ?", id).Find(&datas).WithContext(ctx).Error
 
 	if err != nil {
 		return datas, err
@@ -60,13 +60,13 @@ func (c *CollectionRepositoryImpl) FindAlternatives(ctx context.Context, id *str
 	return datas, nil
 }
 
-func (c *CollectionRepositoryImpl) Update(ctx context.Context, id *string, e *model.CollectionModel) (*model.CollectionModel, error) {
-	err := c.db.Model(e).Where("id = ?", id).Updates(e).
+func (r *CollectionRepositoryImpl) Update(ctx context.Context, id *string, e *model.CollectionModel) (*model.CollectionModel, error) {
+	err := r.db.Model(e).Where("id = ?", id).Updates(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err
 	}
-	err = c.db.Model(e).Updates(e).
+	err = r.db.Model(e).Updates(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err
@@ -74,8 +74,8 @@ func (c *CollectionRepositoryImpl) Update(ctx context.Context, id *string, e *mo
 	return e, nil
 }
 
-func (c *CollectionRepositoryImpl) Delete(ctx context.Context, id *string, e *model.CollectionModel) (*string, error) {
-	err := c.db.Model(e).Where("id = ?", id).Delete(e).
+func (r *CollectionRepositoryImpl) Delete(ctx context.Context, id *string, e *model.CollectionModel) (*string, error) {
+	err := r.db.Model(e).Where("id = ?", id).Delete(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err

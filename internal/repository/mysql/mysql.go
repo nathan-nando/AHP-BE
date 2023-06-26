@@ -2,8 +2,10 @@ package mysql
 
 import (
 	"ahp-be/config"
+	"ahp-be/internal/alternative"
+	repoAlternativeMySQL "ahp-be/internal/alternative/repository/mysql"
 	"ahp-be/internal/collection"
-	repoMySQL "ahp-be/internal/collection/repository/mysql"
+	repoCollectionMySQL "ahp-be/internal/collection/repository/mysql"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
@@ -40,5 +42,9 @@ func New(log *logrus.Logger, cfg *config.Config) *RepositoryMysqlImpl {
 }
 
 func (r *RepositoryMysqlImpl) CollectionRepository() collection.Repository {
-	return repoMySQL.New(r.Db)
+	return repoCollectionMySQL.New(r.Db)
+}
+
+func (r *RepositoryMysqlImpl) AlternativeRepository() alternative.Repository {
+	return repoAlternativeMySQL.New(r.Db)
 }

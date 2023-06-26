@@ -34,6 +34,7 @@ func (h *Handler) Get(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	result, err := h.service.Finds(ctx)
+
 	if err != nil {
 		return response.ErrorResponse(err).Send(c)
 	}

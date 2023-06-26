@@ -3,6 +3,7 @@ package app
 import (
 	"ahp-be/config"
 	"ahp-be/docs"
+	alternative "ahp-be/internal/alternative/http"
 	collection "ahp-be/internal/collection/http"
 	"ahp-be/internal/middleware"
 	"ahp-be/internal/model"
@@ -63,10 +64,12 @@ func RegisterHandler(e *echo.Echo, repo *mysql.RepositoryMysqlImpl) {
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	collection.NewHandler(repo.CollectionRepository(), repo.Db).Route(e.Group("/collection"))
+	alternative.NewHandler(repo.AlternativeRepository(), repo.Db).Route(e.Group("/alternative"))
+
 }
 
 func RegisterRepository(repo *mysql.RepositoryMysqlImpl, log *logrus.Logger) {
-	err := repo.Db.AutoMigrate(&model.CollectionModel{})
+	err := repo.Db.AutoMigrate(&model.CollectionModel{}, &model.AlternativeModel{})
 	if err != nil {
 		log.Error(err)
 	}
