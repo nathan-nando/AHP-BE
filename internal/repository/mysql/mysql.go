@@ -2,6 +2,8 @@ package mysql
 
 import (
 	"ahp-be/config"
+	"ahp-be/internal/ahp"
+	repoAHPMySQL "ahp-be/internal/ahp/repository/mysql"
 	"ahp-be/internal/alternative"
 	repoAlternativeMySQL "ahp-be/internal/alternative/repository/mysql"
 	"ahp-be/internal/collection"
@@ -47,4 +49,8 @@ func (r *RepositoryMysqlImpl) CollectionRepository() collection.Repository {
 
 func (r *RepositoryMysqlImpl) AlternativeRepository() alternative.Repository {
 	return repoAlternativeMySQL.New(r.Db)
+}
+
+func (r *RepositoryMysqlImpl) AHPRepository() ahp.Repository {
+	return repoAHPMySQL.New(r.Db)
 }
