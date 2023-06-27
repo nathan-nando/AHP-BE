@@ -103,6 +103,15 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  dto.CriteriaUpdateRequest:
+    properties:
+      pairwise:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+    type: object
   dto.DeleteAlternativeResponse:
     properties:
       id:
@@ -456,6 +465,203 @@ definitions:
 info:
   contact: {}
 paths:
+  /ahp/criteria:
+    get:
+      consumes:
+      - application/json
+      description: Get ALl Criteria Alternative
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get All Criteria Alternative
+      tags:
+      - AHP
+    patch:
+      consumes:
+      - application/json
+      description: Update Criteria Alternative
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CriteriaUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update Criteria Alternative
+      tags:
+      - AHP
+  /ahp/final_scores/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Final Scores
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Final Scores
+      tags:
+      - AHP
+  /ahp/final_scores/calculate/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Calculate Final Scores by Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Calculate Final Scores by Collection ID
+      tags:
+      - AHP
+  /ahp/point/calculate/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Calculate Alternative to Point
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Calculate Alternative to Point
+      tags:
+      - AHP
+  /ahp/scores/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Scores By Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Scores By Collection ID
+      tags:
+      - AHP
+  /ahp/scores/calculate/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Calculate Scores by Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Calculate Scores by Collection ID
+      tags:
+      - AHP
   /alternative:
     patch:
       consumes:
