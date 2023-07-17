@@ -6,7 +6,16 @@ import (
 )
 
 type Alternative struct {
-	Name      string  `json:"name"`
+	Name string `json:"name" gorm:"uniqueIndex"`
+
+	TimbulanSampah        string  `json:"timbulan_sampah"`
+	JarakTpa              string  `json:"jarak_tpa"`
+	JarakPemukiman        float64 `json:"jarak_pemukiman"`
+	JarakSungai           string  `json:"jarak_sungai"`
+	PartisipasiMasyarakat float64 `json:"partisipasi_masyarakat"`
+	CakupanRumah          float64 `json:"cakupan_rumah"`
+	Aksesibilitas         string  `json:"aksesibilitas"`
+
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
 }

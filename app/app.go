@@ -66,7 +66,7 @@ func RegisterHandler(e *echo.Echo, repo *mysql.RepositoryMysqlImpl) {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	collection.NewHandler(repo.CollectionRepository(), repo.Db).Route(e.Group("/collection"))
 	alternative.NewHandler(repo.AlternativeRepository(), repo.Db).Route(e.Group("/alternative"))
-	ahp.NewHandler(repo.AHPRepository(), repo.Db).Route(e.Group("/ahp"))
+	ahp.NewHandler(repo.AHPRepository(), repo.AlternativeRepository(), repo.Db).Route(e.Group("/ahp"))
 
 }
 

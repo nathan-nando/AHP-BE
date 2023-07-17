@@ -95,9 +95,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/ahp/final_scores/calculate/{collection_id}": {
+        "/ahp/criteria/check": {
             "get": {
-                "description": "Calculate Final Scores by Collection ID",
+                "description": "Check Consistency Ratio",
                 "consumes": [
                     "application/json"
                 ],
@@ -107,7 +107,48 @@ const docTemplate = `{
                 "tags": [
                     "AHP"
                 ],
-                "summary": "Calculate Final Scores by Collection ID",
+                "summary": "Check Consistency Ratio",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CheckConsistencyRatioResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/final_scores/calculate/{collection_id}": {
+            "get": {
+                "description": "Calculate Final Scores",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Calculate Final Scores",
                 "parameters": [
                     {
                         "type": "string",
@@ -229,7 +270,7 @@ const docTemplate = `{
         },
         "/ahp/scores/calculate/{collection_id}": {
             "get": {
-                "description": "Calculate Scores by Collection ID",
+                "description": "Calculate Scores",
                 "consumes": [
                     "application/json"
                 ],
@@ -239,7 +280,7 @@ const docTemplate = `{
                 "tags": [
                     "AHP"
                 ],
-                "summary": "Calculate Scores by Collection ID",
+                "summary": "Calculate Scores",
                 "parameters": [
                     {
                         "type": "string",
@@ -273,7 +314,7 @@ const docTemplate = `{
         },
         "/ahp/scores/{collection_id}": {
             "get": {
-                "description": "Get Scores By Collection ID",
+                "description": "Get Scores",
                 "consumes": [
                     "application/json"
                 ],
@@ -283,7 +324,7 @@ const docTemplate = `{
                 "tags": [
                     "AHP"
                 ],
-                "summary": "Get Scores By Collection ID",
+                "summary": "Get Scores",
                 "parameters": [
                     {
                         "type": "string",
@@ -806,10 +847,49 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CheckConsistencyRatioResponse": {
+            "type": "object",
+            "properties": {
+                "bool": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "dto.CheckConsistencyRatioResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.CheckConsistencyRatioResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
         "dto.CreateAlternativeRequest": {
             "type": "object",
             "properties": {
+                "aksesibilitas": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
                 "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "string"
+                },
+                "jarak_tpa": {
                     "type": "string"
                 },
                 "latitude": {
@@ -820,12 +900,24 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
+                "timbulan_sampah": {
+                    "type": "string"
                 }
             }
         },
         "dto.CreateAlternativeResponse": {
             "type": "object",
             "properties": {
+                "aksesibilitas": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
                 "collection_id": {
                     "type": "string"
                 },
@@ -839,6 +931,15 @@ const docTemplate = `{
                     "$ref": "#/definitions/model.FinalScoreModel"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "string"
+                },
+                "jarak_tpa": {
                     "type": "string"
                 },
                 "latitude": {
@@ -856,8 +957,14 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
                 "scores": {
                     "$ref": "#/definitions/model.ScoreModel"
+                },
+                "timbulan_sampah": {
+                    "type": "string"
                 }
             }
         },
@@ -927,6 +1034,12 @@ const docTemplate = `{
                 "final_score_is_calculated": {
                     "type": "boolean"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.FinalScoreModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -947,6 +1060,12 @@ const docTemplate = `{
                 },
                 "score_is_calculated": {
                     "type": "boolean"
+                },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ScoreModel"
+                    }
                 }
             }
         },
@@ -1031,6 +1150,12 @@ const docTemplate = `{
         "dto.FindAlternativeByIDResponse": {
             "type": "object",
             "properties": {
+                "aksesibilitas": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
                 "collection_id": {
                     "type": "string"
                 },
@@ -1044,6 +1169,15 @@ const docTemplate = `{
                     "$ref": "#/definitions/model.FinalScoreModel"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "string"
+                },
+                "jarak_tpa": {
                     "type": "string"
                 },
                 "latitude": {
@@ -1061,8 +1195,14 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
                 "scores": {
                     "$ref": "#/definitions/model.ScoreModel"
+                },
+                "timbulan_sampah": {
+                    "type": "string"
                 }
             }
         },
@@ -1125,6 +1265,12 @@ const docTemplate = `{
                 "final_score_is_calculated": {
                     "type": "boolean"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.FinalScoreModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1145,6 +1291,12 @@ const docTemplate = `{
                 },
                 "score_is_calculated": {
                     "type": "boolean"
+                },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ScoreModel"
+                    }
                 }
             }
         },
@@ -1189,7 +1341,22 @@ const docTemplate = `{
                 "id"
             ],
             "properties": {
+                "aksesibilitas": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
                 "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "string"
+                },
+                "jarak_tpa": {
                     "type": "string"
                 },
                 "latitude": {
@@ -1200,12 +1367,24 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
+                "timbulan_sampah": {
+                    "type": "string"
                 }
             }
         },
         "dto.UpdateAlternativeResponse": {
             "type": "object",
             "properties": {
+                "aksesibilitas": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
                 "collection_id": {
                     "type": "string"
                 },
@@ -1219,6 +1398,15 @@ const docTemplate = `{
                     "$ref": "#/definitions/model.FinalScoreModel"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "string"
+                },
+                "jarak_tpa": {
                     "type": "string"
                 },
                 "latitude": {
@@ -1236,8 +1424,14 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
                 "scores": {
                     "$ref": "#/definitions/model.ScoreModel"
+                },
+                "timbulan_sampah": {
+                    "type": "string"
                 }
             }
         },
@@ -1313,6 +1507,12 @@ const docTemplate = `{
                 "final_score_is_calculated": {
                     "type": "boolean"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.FinalScoreModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1333,6 +1533,12 @@ const docTemplate = `{
                 },
                 "score_is_calculated": {
                     "type": "boolean"
+                },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ScoreModel"
+                    }
                 }
             }
         },
@@ -1355,6 +1561,12 @@ const docTemplate = `{
         "model.AlternativeModel": {
             "type": "object",
             "properties": {
+                "aksesibilitas": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
                 "collection_id": {
                     "type": "string"
                 },
@@ -1368,6 +1580,15 @@ const docTemplate = `{
                     "$ref": "#/definitions/model.FinalScoreModel"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "string"
+                },
+                "jarak_tpa": {
                     "type": "string"
                 },
                 "latitude": {
@@ -1385,8 +1606,14 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
                 "scores": {
                     "$ref": "#/definitions/model.ScoreModel"
+                },
+                "timbulan_sampah": {
+                    "type": "string"
                 }
             }
         },
@@ -1414,6 +1641,12 @@ const docTemplate = `{
                 "final_score_is_calculated": {
                     "type": "boolean"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.FinalScoreModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1434,6 +1667,12 @@ const docTemplate = `{
                 },
                 "score_is_calculated": {
                     "type": "boolean"
+                },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ScoreModel"
+                    }
                 }
             }
         },
@@ -1472,8 +1711,14 @@ const docTemplate = `{
         "model.ScoreModel": {
             "type": "object",
             "properties": {
+                "aksesibilitas": {
+                    "type": "number"
+                },
                 "alternative_id": {
                     "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
                 },
                 "collection_id": {
                     "type": "string"
@@ -1487,11 +1732,26 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "number"
+                },
+                "jarak_tpa": {
+                    "type": "number"
+                },
                 "modified_at": {
                     "type": "string"
                 },
                 "modified_by": {
                     "type": "string"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
+                "timbulan_sampah": {
+                    "type": "number"
                 }
             }
         },

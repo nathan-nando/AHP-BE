@@ -1,7 +1,32 @@
 definitions:
+  dto.CheckConsistencyRatioResponse:
+    properties:
+      bool:
+        type: boolean
+    type: object
+  dto.CheckConsistencyRatioResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.CheckConsistencyRatioResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
   dto.CreateAlternativeRequest:
     properties:
+      aksesibilitas:
+        type: string
+      cakupan_rumah:
+        type: number
       id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: string
+      jarak_tpa:
         type: string
       latitude:
         type: number
@@ -9,9 +34,17 @@ definitions:
         type: number
       name:
         type: string
+      partisipasi_masyarakat:
+        type: number
+      timbulan_sampah:
+        type: string
     type: object
   dto.CreateAlternativeResponse:
     properties:
+      aksesibilitas:
+        type: string
+      cakupan_rumah:
+        type: number
       collection_id:
         type: string
       created_at:
@@ -21,6 +54,12 @@ definitions:
       final_scores:
         $ref: '#/definitions/model.FinalScoreModel'
       id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: string
+      jarak_tpa:
         type: string
       latitude:
         type: number
@@ -32,8 +71,12 @@ definitions:
         type: string
       name:
         type: string
+      partisipasi_masyarakat:
+        type: number
       scores:
         $ref: '#/definitions/model.ScoreModel'
+      timbulan_sampah:
+        type: string
     type: object
   dto.CreateAlternativeResponseDoc:
     properties:
@@ -78,6 +121,10 @@ definitions:
         type: string
       final_score_is_calculated:
         type: boolean
+      final_scores:
+        items:
+          $ref: '#/definitions/model.FinalScoreModel'
+        type: array
       id:
         type: string
       latitude:
@@ -92,6 +139,10 @@ definitions:
         type: string
       score_is_calculated:
         type: boolean
+      scores:
+        items:
+          $ref: '#/definitions/model.ScoreModel'
+        type: array
     type: object
   dto.CreateCollectionResponseDoc:
     properties:
@@ -144,6 +195,10 @@ definitions:
     type: object
   dto.FindAlternativeByIDResponse:
     properties:
+      aksesibilitas:
+        type: string
+      cakupan_rumah:
+        type: number
       collection_id:
         type: string
       created_at:
@@ -153,6 +208,12 @@ definitions:
       final_scores:
         $ref: '#/definitions/model.FinalScoreModel'
       id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: string
+      jarak_tpa:
         type: string
       latitude:
         type: number
@@ -164,8 +225,12 @@ definitions:
         type: string
       name:
         type: string
+      partisipasi_masyarakat:
+        type: number
       scores:
         $ref: '#/definitions/model.ScoreModel'
+      timbulan_sampah:
+        type: string
     type: object
   dto.FindAlternativeByIDResponseDoc:
     properties:
@@ -205,6 +270,10 @@ definitions:
         type: string
       final_score_is_calculated:
         type: boolean
+      final_scores:
+        items:
+          $ref: '#/definitions/model.FinalScoreModel'
+        type: array
       id:
         type: string
       latitude:
@@ -219,6 +288,10 @@ definitions:
         type: string
       score_is_calculated:
         type: boolean
+      scores:
+        items:
+          $ref: '#/definitions/model.ScoreModel'
+        type: array
     type: object
   dto.FindCollectionByIDResponseDoc:
     properties:
@@ -244,7 +317,17 @@ definitions:
     type: object
   dto.UpdateAlternativeRequest:
     properties:
+      aksesibilitas:
+        type: string
+      cakupan_rumah:
+        type: number
       id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: string
+      jarak_tpa:
         type: string
       latitude:
         type: number
@@ -252,11 +335,19 @@ definitions:
         type: number
       name:
         type: string
+      partisipasi_masyarakat:
+        type: number
+      timbulan_sampah:
+        type: string
     required:
     - id
     type: object
   dto.UpdateAlternativeResponse:
     properties:
+      aksesibilitas:
+        type: string
+      cakupan_rumah:
+        type: number
       collection_id:
         type: string
       created_at:
@@ -266,6 +357,12 @@ definitions:
       final_scores:
         $ref: '#/definitions/model.FinalScoreModel'
       id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: string
+      jarak_tpa:
         type: string
       latitude:
         type: number
@@ -277,8 +374,12 @@ definitions:
         type: string
       name:
         type: string
+      partisipasi_masyarakat:
+        type: number
       scores:
         $ref: '#/definitions/model.ScoreModel'
+      timbulan_sampah:
+        type: string
     type: object
   dto.UpdateAlternativeResponseDoc:
     properties:
@@ -327,6 +428,10 @@ definitions:
         type: string
       final_score_is_calculated:
         type: boolean
+      final_scores:
+        items:
+          $ref: '#/definitions/model.FinalScoreModel'
+        type: array
       id:
         type: string
       latitude:
@@ -341,6 +446,10 @@ definitions:
         type: string
       score_is_calculated:
         type: boolean
+      scores:
+        items:
+          $ref: '#/definitions/model.ScoreModel'
+        type: array
     type: object
   dto.UpdateCollectionResponseDoc:
     properties:
@@ -354,6 +463,10 @@ definitions:
     type: object
   model.AlternativeModel:
     properties:
+      aksesibilitas:
+        type: string
+      cakupan_rumah:
+        type: number
       collection_id:
         type: string
       created_at:
@@ -363,6 +476,12 @@ definitions:
       final_scores:
         $ref: '#/definitions/model.FinalScoreModel'
       id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: string
+      jarak_tpa:
         type: string
       latitude:
         type: number
@@ -374,8 +493,12 @@ definitions:
         type: string
       name:
         type: string
+      partisipasi_masyarakat:
+        type: number
       scores:
         $ref: '#/definitions/model.ScoreModel'
+      timbulan_sampah:
+        type: string
     type: object
   model.CollectionModel:
     properties:
@@ -393,6 +516,10 @@ definitions:
         type: string
       final_score_is_calculated:
         type: boolean
+      final_scores:
+        items:
+          $ref: '#/definitions/model.FinalScoreModel'
+        type: array
       id:
         type: string
       latitude:
@@ -407,6 +534,10 @@ definitions:
         type: string
       score_is_calculated:
         type: boolean
+      scores:
+        items:
+          $ref: '#/definitions/model.ScoreModel'
+        type: array
     type: object
   model.FinalScoreModel:
     properties:
@@ -431,8 +562,12 @@ definitions:
     type: object
   model.ScoreModel:
     properties:
+      aksesibilitas:
+        type: number
       alternative_id:
         type: string
+      cakupan_rumah:
+        type: number
       collection_id:
         type: string
       created_at:
@@ -441,10 +576,20 @@ definitions:
         type: string
       id:
         type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: number
+      jarak_tpa:
+        type: number
       modified_at:
         type: string
       modified_by:
         type: string
+      partisipasi_masyarakat:
+        type: number
+      timbulan_sampah:
+        type: number
     type: object
   response.Meta:
     properties:
@@ -517,6 +662,33 @@ paths:
       summary: Update Criteria Alternative
       tags:
       - AHP
+  /ahp/criteria/check:
+    get:
+      consumes:
+      - application/json
+      description: Check Consistency Ratio
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CheckConsistencyRatioResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Check Consistency Ratio
+      tags:
+      - AHP
   /ahp/final_scores/{collection_id}:
     get:
       consumes:
@@ -550,7 +722,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Calculate Final Scores by Collection ID
+      description: Calculate Final Scores
       parameters:
       - description: collection_id path
         in: path
@@ -572,7 +744,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Calculate Final Scores by Collection ID
+      summary: Calculate Final Scores
       tags:
       - AHP
   /ahp/point/calculate/{collection_id}:
@@ -608,7 +780,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get Scores By Collection ID
+      description: Get Scores
       parameters:
       - description: collection_id path
         in: path
@@ -630,14 +802,14 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Get Scores By Collection ID
+      summary: Get Scores
       tags:
       - AHP
   /ahp/scores/calculate/{collection_id}:
     get:
       consumes:
       - application/json
-      description: Calculate Scores by Collection ID
+      description: Calculate Scores
       parameters:
       - description: collection_id path
         in: path
@@ -659,7 +831,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Calculate Scores by Collection ID
+      summary: Calculate Scores
       tags:
       - AHP
   /alternative:
