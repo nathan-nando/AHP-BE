@@ -4,6 +4,7 @@ import (
 	"ahp-be/internal/ahp"
 	"ahp-be/internal/ahp/dto"
 	"ahp-be/internal/ahp/usecase"
+	"ahp-be/internal/alternative"
 	"ahp-be/pkg/response"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -13,8 +14,8 @@ type Handler struct {
 	service *usecase.Service
 }
 
-func NewHandler(repo ahp.Repository, db *gorm.DB) *Handler {
-	service := usecase.New(repo, db)
+func NewHandler(repo ahp.Repository, repoAlternative alternative.Repository, db *gorm.DB) *Handler {
+	service := usecase.New(repo, repoAlternative, db)
 	return &Handler{service}
 }
 
@@ -39,9 +40,31 @@ func (h *Handler) GetCriteria(c echo.Context) error {
 	return response.SuccessResponse(result).Send(c)
 }
 
+// CheckConsistencyRatio
+// @Summary Check Consistency Ratio
+// @Description Check Consistency Ratio
+// @Tags AHP
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.CheckConsistencyRatioResponseDoc
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /ahp/criteria/check [get]
+func (h *Handler) CheckConsistencyRatio(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	result, err := h.service.CheckConsistencyRatio(ctx)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+}
+
 // GetScores
-// @Summary Get Scores By Collection ID
-// @Description Get Scores By Collection ID
+// @Summary Get Scores
+// @Description Get Scores
 // @Tags AHP
 // @Accept json
 // @Produce json
@@ -164,8 +187,8 @@ func (h *Handler) CalculateAlternativeToPoint(c echo.Context) error {
 }
 
 // CalculateScores
-// @Summary Calculate Scores by Collection ID
-// @Description Calculate Scores by Collection ID
+// @Summary Calculate Scores
+// @Description Calculate Scores
 // @Tags AHP
 // @Accept json
 // @Produce json
@@ -195,8 +218,8 @@ func (h *Handler) CalculateScores(c echo.Context) error {
 }
 
 // CalculateFinalScores
-// @Summary Calculate Final Scores by Collection ID
-// @Description Calculate Final Scores by Collection ID
+// @Summary Calculate Final Scores
+// @Description Calculate Final Scores
 // @Tags AHP
 // @Accept json
 // @Produce json

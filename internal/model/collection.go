@@ -19,6 +19,8 @@ type CollectionModel struct {
 	BaseModel
 	Collection
 	Alternatives []AlternativeModel `json:"alternatives" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
+	Scores       []ScoreModel       `json:"scores" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
+	FinalScores  []FinalScoreModel  `json:"final_scores" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
 }
 
 func (CollectionModel) TableName() string {

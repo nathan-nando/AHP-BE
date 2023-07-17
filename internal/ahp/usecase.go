@@ -8,10 +8,11 @@ import (
 
 type UseCase interface {
 	FindCriteria(ctx context.Context) (*model.Criteria, error)
+	UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdateRequest) (*model.Criteria, error)
+	CheckConsistencyRatio(ctx context.Context) (bool, error)
+
 	FindScoresByCollectionID(ctx context.Context, collectionID *string) ([]model.AlternativeModel, error)
 	FindFinalScoresByCollectionID(ctx context.Context, collectionID *string) ([]model.AlternativeModel, error)
-
-	UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdateRequest) (*model.Criteria, error)
 
 	CalculateAlternativeToPoint(ctx context.Context, collectionID *string) (model.Matrix, error)
 	CalculateScore(ctx context.Context, collectionID *string) ([]model.ScoreModel, error)

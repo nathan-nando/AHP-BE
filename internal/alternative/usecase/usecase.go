@@ -33,18 +33,12 @@ func (s *Service) Create(ctx context.Context, payload *dto.CreateAlternativeRequ
 		CollectionID: payload.CollectionID,
 	}
 
-	find, err := s.repo.FindsByCollectionID(ctx, &payload.CollectionID)
-
-	if len(find) == 0 {
-		return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
-	}
-	if err != nil {
-		return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
-	}
-
-	_, err = s.repo.Create(ctx, data)
+	_, err := s.repo.Create(ctx, data)
 
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
 		return nil, response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
 	}
 
@@ -75,10 +69,7 @@ func (s *Service) FindByID(ctx context.Context, payload *dto.FindAlternativeByID
 }
 
 func (s *Service) FindByCollectionID(ctx context.Context, payload *dto.FindAlternativeByIDRequest) ([]model.AlternativeModel, error) {
-	datas := make([]model.AlternativeModel, 0)
-
 	datas, err := s.repo.FindsByCollectionID(ctx, &payload.ID)
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return datas, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
