@@ -125,8 +125,44 @@ func (s *Service) UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdat
 }
 
 func (s *Service) CheckConsistencyRatio(ctx context.Context) (bool, error) {
+	criteria, err := s.FindCriteria(ctx)
 
-	return true, nil
+	if err != nil {
+		return false, err
+	}
+
+	matrix := criteria.PairwiseFromJson
+
+	rows := len(matrix)
+	cols := len(matrix[0])
+
+	consistencyMatrix := make([]float64, 0)
+	for i := 0; i < rows; i++ {
+		var a float64
+		for j := 0; j < cols; j++ {
+			a += (matrix[i][j] * criteria.Weights[j]) / criteria.Weights[i]
+		}
+		var sum float64
+		sum += a
+		consistencyMatrix = append(consistencyMatrix, a)
+	}
+
+	var sumConsistencyMatrix float64
+	for i := 0; i < len(consistencyMatrix); i++ {
+		sumConsistencyMatrix += consistencyMatrix[i]
+	}
+
+	consistencyIndex := (sumConsistencyMatrix/float64(len(matrix)) - float64(len(matrix))) / float64(len(matrix)-1)
+
+	ratioIndex := ahpFunc.GetRatioIndex()[len(matrix)-1]
+
+	consistencyRatio := consistencyIndex / ratioIndex
+
+	if consistencyRatio <= 0.1 {
+		return true, nil
+	}
+
+	return false, nil
 }
 
 func (s *Service) FindScoresByCollectionID(ctx context.Context, collectionID *string) ([]model.AlternativeModel, error) {
