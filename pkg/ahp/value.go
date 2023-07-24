@@ -1,16 +1,16 @@
 package ahp
 
 const (
-	jaringanJalan      = 0.086
-	perumahan          = 0.439
-	fasilitasKomersial = 0.260
-	fasilitasUmum      = 0.139
-	fasilitasSosial    = 0.049
-	ruangTerbuka       = 0.026
+	pusatKota             = 0.066
+	komersil              = 0.280
+	perumahanTeratur      = 0.327
+	industri              = 0.188
+	jalan                 = 0.058
+	perumahanTidakTeratur = 0.081
 
-	alternatifJangkauanTPA      = 0.669
-	alternatifBatasTerjauhTPA   = 0.267
-	alternatifBukanJangkauanTPA = 0.064
+	pelayananIntensif = 0.723
+	pelayananMenengah = 0.216
+	PelayananRendah   = 0.061
 
 	jarak1 = 0.035
 	jarak2 = 0.068
@@ -18,9 +18,11 @@ const (
 	jarak4 = 0.260
 	jarak5 = 0.503
 
-	memenuhiPeliBanjir         = 0.669
-	memenuhiSebagianPeliBanjir = 0.267
-	tidakMemenuhiPeliBanjir    = 0.064
+	sungaiSangatLayak = 0.503
+	sungaiLayak       = 0.260
+	sungaiCukupLayak  = 0.134
+	sungaiKurangLayak = 0.068
+	sungaiTidakLayak  = 0.035
 
 	partisipasi1 = 0.035
 	partisipasi2 = 0.068
@@ -34,7 +36,7 @@ const (
 	cakupan4 = 0.260
 	cakupan5 = 0.503
 
-	jalanBagus      = 0.669
-	jalanBagusTapi  = 0.267
-	jalanTidakBagus = 0.064
+	aksesibilitasSangatLayak = 0.669
+	aksesibilitasLayak       = 0.267
+	aksesibilitasTidakLayak  = 0.064
 )

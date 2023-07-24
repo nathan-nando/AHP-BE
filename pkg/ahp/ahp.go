@@ -7,30 +7,30 @@ func GetRatioIndex() [15]float64 {
 }
 
 func TimbulanSampahSubCriteria(str string) float64 {
-	if str == "jaringan jalan" {
-		return jaringanJalan
-	} else if str == "perumahan" {
-		return perumahan
-	} else if str == "fasilitas komersial" {
-		return fasilitasKomersial
-	} else if str == "fasilitas umum" {
-		return fasilitasUmum
-	} else if str == "fasilitas sosial" {
-		return fasilitasSosial
-	} else if str == "ruang terbuka" {
-		return ruangTerbuka
+	if str == "daerah di jalan protokol pusat kota" {
+		return pusatKota
+	} else if str == "daerah komersil" {
+		return komersil
+	} else if str == "daerah perumahan teratur" {
+		return perumahanTeratur
+	} else if str == "daerah industri" {
+		return industri
+	} else if str == "jalan taman dan hutan kota" {
+		return jalan
+	} else if str == "daerah perumahan tidak teratur" {
+		return perumahanTidakTeratur
 	} else {
 		return 0
 	}
 }
 
 func JarakTPASubCriteria(str string) float64 {
-	if str == "alternatif berada di jangkauan layanan tpa" {
-		return alternatifJangkauanTPA
-	} else if str == "alternatif berada di batas terjauh jangkauan layanan tpa" {
-		return alternatifBatasTerjauhTPA
-	} else if str == "alternatif tidak berada di jangkauan tpa" {
-		return alternatifBukanJangkauanTPA
+	if str == "pelayanan intensif" {
+		return pelayananIntensif
+	} else if str == "pelayanan menengah" {
+		return pelayananMenengah
+	} else if str == "pelayanan rendah" {
+		return PelayananRendah
 	} else {
 		return 0
 	}
@@ -53,12 +53,16 @@ func JarakPemukimanSubCriteria(num float64) float64 {
 }
 
 func JarakSungaiSubCriteria(str string) float64 {
-	if str == "lokasi memenuhi peli banjir" {
-		return memenuhiPeliBanjir
-	} else if str == "lokasi memenuhi sebagian peli banjir" {
-		return memenuhiSebagianPeliBanjir
-	} else if str == "lokasi tidak memenuhi peli banjir" {
-		return tidakMemenuhiPeliBanjir
+	if str == "sangat layak" {
+		return sungaiSangatLayak
+	} else if str == "layak" {
+		return sungaiLayak
+	} else if str == "cukup layak" {
+		return sungaiCukupLayak
+	} else if str == "kurang layak" {
+		return sungaiKurangLayak
+	} else if str == "tidak layak" {
+		return sungaiTidakLayak
 	} else {
 		return 0
 	}
@@ -97,12 +101,12 @@ func CakupanRumahSubCriteria(num float64) float64 {
 }
 
 func AksesibilitasSubCriteria(str string) float64 {
-	if str == "kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah" {
-		return jalanBagus
-	} else if str == "kondisi jalan bagus, tetapi tidak bisa dilewati kendaraan pengangkut sampah atau jalan tidak bagus, tetapi bisa dilewati kendaraan pengangkut sampah" {
-		return jalanBagusTapi
-	} else if str == "kondisi jalan tidak bagus dan tidak bisa dilewati kendaraan pengangkut sampah" {
-		return jalanTidakBagus
+	if str == "sangat layak" {
+		return aksesibilitasSangatLayak
+	} else if str == "layak" {
+		return aksesibilitasLayak
+	} else if str == "tidak layak" {
+		return aksesibilitasTidakLayak
 	} else {
 		return 0
 	}
