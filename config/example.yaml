@@ -1,18 +1,18 @@
 server:
-  name:
-  version:
-  host:
-  port:
-  app_mode:
-  db_mode:
+  name: 'AHP TPS Locations Services'
+  version: '1.1'
+  host: 'localhost'
+  port: '3001'
+  app_mode: 'production'
+  db_mode: 'mysql'
 db:
   sql:
-    driver:
-    host:
-    name:
-    port:
-    user:
-    password:
+    driver: 'mysql'
+    host: 'localhost'
+    name: 'tps_db'
+    port: '3302'
+    user: 'root'
+    password: 'password'
   mongodb:
     uri:
     db:

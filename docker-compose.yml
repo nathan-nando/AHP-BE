@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  ahp-be:
+    build: .
+    container_name: ahp-be
+    env_file:
+      - config/local.yaml
+    ports:
+      - "3001:3001"
+    restart: always
+    entrypoint: bash -c "./application app --appMode=prod"
