@@ -24,7 +24,7 @@ ENV TZ Asia/Jakarta
 
 WORKDIR /app/
 COPY --from=build /app/application .
-COPY --from=build /app/assets ./assets/
+COPY --from=build /app/assets/. ./assets/
 COPY --from=build /app/config/prod.yaml ./config/
 
 RUN ["chmod", "+x", "./application"]
