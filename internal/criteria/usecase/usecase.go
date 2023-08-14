@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"ahp-be/internal/ahp"
-	"ahp-be/internal/ahp/dto"
 	"ahp-be/internal/alternative"
+	"ahp-be/internal/criteria"
+	"ahp-be/internal/criteria/dto"
 	"ahp-be/internal/model"
 	ahpFunc "ahp-be/pkg/ahp"
 	"ahp-be/pkg/constants"
@@ -18,12 +18,12 @@ import (
 )
 
 type Service struct {
-	Repository            ahp.Repository
+	Repository            criteria.Repository
 	RepositoryAlternative alternative.Repository
 	Db                    *gorm.DB
 }
 
-func New(repo ahp.Repository, repoAlternative alternative.Repository, db *gorm.DB) *Service {
+func New(repo criteria.Repository, repoAlternative alternative.Repository, db *gorm.DB) *Service {
 	return &Service{
 		Repository:            repo,
 		RepositoryAlternative: repoAlternative,
@@ -31,120 +31,120 @@ func New(repo ahp.Repository, repoAlternative alternative.Repository, db *gorm.D
 	}
 }
 
-func (s *Service) FindCriteria(ctx context.Context) (*model.Criteria, error) {
-	var result *model.Criteria
+func (s *Service) FindCriteria(ctx context.Context) (*model.Pairwise, error) {
+	var result *model.Pairwise
 
-	jsonFile, err := os.ReadFile(constants.PairwiseJson)
+	jsonFile, err := os.ReadFile(constants.FileCriteria)
 
 	if err != nil {
 		return nil, err
 	}
 
-	var criteria model.Criteria
-	err = json.Unmarshal(jsonFile, &criteria)
+	var criteriaData model.Pairwise
+	err = json.Unmarshal(jsonFile, &criteriaData)
 	if err != nil {
 		return nil, err
 	}
 
-	var preCriteriaData model.Criteria
+	var preCriteriaData model.Pairwise
 	err = json.Unmarshal(jsonFile, &preCriteriaData)
 	if err != nil {
 		return nil, err
 	}
 
-	rowsPC := len(criteria.PairwiseFromJson)
-	colsPC := len(criteria.PairwiseFromJson[0])
+	rowsPC := len(criteriaData.PairwiseFromJson)
+	colsPC := len(criteriaData.PairwiseFromJson[0])
 
 	//MENCARI SUM DARI MASING MASING COL
-	colSum := make([]float64, len(criteria.PairwiseFromJson))
+	colSum := make([]float64, len(criteriaData.PairwiseFromJson))
 	for i := 0; i < rowsPC; i++ {
 		for j := 0; j < colsPC; j++ {
-			colSum[i] += criteria.PairwiseFromJson[j][i]
+			colSum[i] += criteriaData.PairwiseFromJson[j][i]
 		}
 	}
 
 	//NORMALISASI
 	for i := 0; i < rowsPC; i++ {
 		for j := 0; j < colsPC; j++ {
-			criteria.PairwiseFromJson[i][j] /= colSum[j]
+			criteriaData.PairwiseFromJson[i][j] /= colSum[j]
 		}
 	}
 
-	normalColSum := make([]float64, len(criteria.PairwiseFromJson))
-	normalRowSum := make([]float64, len(criteria.PairwiseFromJson[0]))
-	weights := make([]float64, len(criteria.PairwiseFromJson))
+	normalColSum := make([]float64, len(criteriaData.PairwiseFromJson))
+	normalRowSum := make([]float64, len(criteriaData.PairwiseFromJson[0]))
+	weights := make([]float64, len(criteriaData.PairwiseFromJson))
 
 	for i := 0; i < rowsPC; i++ {
 		sum := 0.0
 		for j := 0; j < colsPC; j++ {
-			sum += criteria.PairwiseFromJson[i][j]
-			normalColSum[i] += criteria.PairwiseFromJson[j][i]
-			normalRowSum[i] += criteria.PairwiseFromJson[i][j]
+			sum += criteriaData.PairwiseFromJson[i][j]
+			normalColSum[i] += criteriaData.PairwiseFromJson[j][i]
+			normalRowSum[i] += criteriaData.PairwiseFromJson[i][j]
 			weights[i] = sum / float64(len(weights))
 		}
 	}
 
-	result = &model.Criteria{
+	result = &model.Pairwise{
 		PairwiseFromJson:        preCriteriaData.PairwiseFromJson,
-		PairwiseAfterCalculated: criteria.PairwiseFromJson,
+		PairwiseAfterCalculated: criteriaData.PairwiseFromJson,
 		Weights:                 weights,
 	}
 
 	return result, err
 }
 
-func (s *Service) UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdateRequest) (*model.Criteria, error) {
-	jsonFile, err := os.ReadFile(constants.PairwiseJson)
+func (s *Service) UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdateRequest) (*model.Pairwise, error) {
+	jsonFile, err := os.ReadFile(constants.FileCriteria)
 
-	var criteria model.Criteria
+	var criteriaData model.Pairwise
 
-	err = json.Unmarshal(jsonFile, &criteria)
-
-	if err != nil {
-		return nil, err
-	}
-	criteria.PairwiseFromJson = payload.Pairwise
-
-	byteCriteria, err := json.Marshal(criteria)
+	err = json.Unmarshal(jsonFile, &criteriaData)
 
 	if err != nil {
 		return nil, err
 	}
+	criteriaData.PairwiseFromJson = payload.Pairwise
 
-	err = os.WriteFile(constants.PairwiseJson, byteCriteria, 0644)
+	byteCriteria, err := json.Marshal(criteriaData)
 
 	if err != nil {
 		return nil, err
 	}
 
-	result := &model.Criteria{
-		PairwiseFromJson: criteria.PairwiseFromJson,
+	err = os.WriteFile(constants.FileCriteria, byteCriteria, 0644)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.Pairwise{
+		PairwiseFromJson: criteriaData.PairwiseFromJson,
 	}
 
 	return result, nil
 }
 
 func (s *Service) CheckConsistencyRatio(ctx context.Context) (bool, error) {
-	criteria, err := s.FindCriteria(ctx)
+	criteriaData, err := s.FindCriteria(ctx)
 
 	if err != nil {
 		return false, err
 	}
 
-	matrix := criteria.PairwiseFromJson
+	matrix := criteriaData.PairwiseFromJson
 
 	rows := len(matrix)
 	cols := len(matrix[0])
 
 	consistencyMatrix := make([]float64, 0)
 	for i := 0; i < rows; i++ {
-		var a float64
+		var temp float64
 		for j := 0; j < cols; j++ {
-			a += (matrix[i][j] * criteria.Weights[j]) / criteria.Weights[i]
+			temp += (matrix[i][j] * criteriaData.Weights[j]) / criteriaData.Weights[i]
 		}
 		var sum float64
-		sum += a
-		consistencyMatrix = append(consistencyMatrix, a)
+		sum += temp
+		consistencyMatrix = append(consistencyMatrix, temp)
 	}
 
 	var sumConsistencyMatrix float64
@@ -272,8 +272,8 @@ func (s *Service) CalculateScore(ctx context.Context, collectionID *string) ([]m
 		return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	criteria, _ := s.FindCriteria(ctx)
-	weights := criteria.Weights
+	criteriaData, _ := s.FindCriteria(ctx)
+	weights := criteriaData.Weights
 
 	rowsACS := len(matrix)
 	colsACS := len(matrix[0])

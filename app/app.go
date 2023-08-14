@@ -3,13 +3,14 @@ package app
 import (
 	"ahp-be/config"
 	"ahp-be/docs"
-	ahp "ahp-be/internal/ahp/http"
 	alternative "ahp-be/internal/alternative/http"
 	collection "ahp-be/internal/collection/http"
+	criteria "ahp-be/internal/criteria/http"
 	"ahp-be/internal/middleware"
 	"ahp-be/internal/model"
 	"ahp-be/internal/repository"
 	"ahp-be/internal/repository/mysql"
+	subCriteria "ahp-be/internal/subCriteria/http"
 	"ahp-be/pkg/constants"
 	"fmt"
 	"github.com/labstack/echo/v4"
@@ -66,7 +67,8 @@ func RegisterHandler(e *echo.Echo, repo *mysql.RepositoryMysqlImpl) {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	collection.NewHandler(repo.CollectionRepository(), repo.Db).Route(e.Group("/collection"))
 	alternative.NewHandler(repo.AlternativeRepository(), repo.Db).Route(e.Group("/alternative"))
-	ahp.NewHandler(repo.AHPRepository(), repo.AlternativeRepository(), repo.Db).Route(e.Group("/ahp"))
+	criteria.NewHandler(repo.CriteriaRepository(), repo.AlternativeRepository(), repo.Db).Route(e.Group("/ahp"))
+	subCriteria.NewHandler(repo.SubCriteriaRepository(), repo.Db).Route(e.Group("/ahp"))
 
 }
 

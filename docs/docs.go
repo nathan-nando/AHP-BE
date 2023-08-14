@@ -26,7 +26,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Get All Criteria Alternative",
                 "responses": {
@@ -59,7 +59,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Update Criteria Alternative",
                 "parameters": [
@@ -105,7 +105,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Check Consistency Ratio",
                 "responses": {
@@ -146,7 +146,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Calculate Final Scores",
                 "parameters": [
@@ -190,7 +190,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Get Final Scores",
                 "parameters": [
@@ -234,7 +234,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Calculate Alternative to Point",
                 "parameters": [
@@ -278,7 +278,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Calculate Scores",
                 "parameters": [
@@ -322,7 +322,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AHP"
+                    "Criteria"
                 ],
                 "summary": "Get Scores",
                 "parameters": [
@@ -330,6 +330,129 @@ const docTemplate = `{
                         "type": "string",
                         "description": "collection_id path",
                         "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/sub-criteria": {
+            "get": {
+                "description": "Get All Criteria",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubCriteria"
+                ],
+                "summary": "Get All Sub Criteria",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update Sub Criteria by Mode",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubCriteria"
+                ],
+                "summary": "Update Sub Criteria by Mode",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SubCriteria"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/sub-criteria/check/{mode}": {
+            "get": {
+                "description": "Check Consistency Ratio",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubCriteria"
+                ],
+                "summary": "Check Consistency Ratio",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "mode",
+                        "name": "mode",
                         "in": "path",
                         "required": true
                     }
@@ -1558,6 +1681,23 @@ const docTemplate = `{
                 }
             }
         },
+        "model.Aksesibilitas": {
+            "type": "object",
+            "properties": {
+                "layak": {
+                    "type": "number"
+                },
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
+                },
+                "sangat_layak": {
+                    "type": "number"
+                },
+                "tidak_layak": {
+                    "type": "number"
+                }
+            }
+        },
         "model.AlternativeModel": {
             "type": "object",
             "properties": {
@@ -1614,6 +1754,29 @@ const docTemplate = `{
                 },
                 "timbulan_sampah": {
                     "type": "string"
+                }
+            }
+        },
+        "model.CakupanRumah": {
+            "type": "object",
+            "properties": {
+                "cakupan_1": {
+                    "type": "number"
+                },
+                "cakupan_2": {
+                    "type": "number"
+                },
+                "cakupan_3": {
+                    "type": "number"
+                },
+                "cakupan_4": {
+                    "type": "number"
+                },
+                "cakupan_5": {
+                    "type": "number"
+                },
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
                 }
             }
         },
@@ -1708,6 +1871,121 @@ const docTemplate = `{
                 }
             }
         },
+        "model.JarakPemukiman": {
+            "type": "object",
+            "properties": {
+                "jarak_1": {
+                    "type": "number"
+                },
+                "jarak_2": {
+                    "type": "number"
+                },
+                "jarak_3": {
+                    "type": "number"
+                },
+                "jarak_4": {
+                    "type": "number"
+                },
+                "jarak_5": {
+                    "type": "number"
+                },
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
+                }
+            }
+        },
+        "model.JarakSungai": {
+            "type": "object",
+            "properties": {
+                "cukup_layak": {
+                    "type": "number"
+                },
+                "kurang_layak": {
+                    "type": "number"
+                },
+                "layak": {
+                    "type": "number"
+                },
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
+                },
+                "sangat_layak": {
+                    "type": "number"
+                },
+                "tidak_layak": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.JarakTPA": {
+            "type": "object",
+            "properties": {
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
+                },
+                "pelayanan_intensif": {
+                    "type": "number"
+                },
+                "pelayanan_menengah": {
+                    "type": "number"
+                },
+                "pelayanan_rendah": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.Pairwise": {
+            "type": "object",
+            "properties": {
+                "pairwise": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "pairwise_after_calculated": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "weights": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "model.PartisipasiMasyarakat": {
+            "type": "object",
+            "properties": {
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
+                },
+                "partisipasi_1": {
+                    "type": "number"
+                },
+                "partisipasi_2": {
+                    "type": "number"
+                },
+                "partisipasi_3": {
+                    "type": "number"
+                },
+                "partisipasi_4": {
+                    "type": "number"
+                },
+                "partisipasi_5": {
+                    "type": "number"
+                }
+            }
+        },
         "model.ScoreModel": {
             "type": "object",
             "properties": {
@@ -1751,6 +2029,58 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "timbulan_sampah": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.SubCriteria": {
+            "type": "object",
+            "properties": {
+                "aksesibilitas": {
+                    "$ref": "#/definitions/model.Aksesibilitas"
+                },
+                "cakupan_rumah": {
+                    "$ref": "#/definitions/model.CakupanRumah"
+                },
+                "jarak_pemukiman": {
+                    "$ref": "#/definitions/model.JarakPemukiman"
+                },
+                "jarak_sungai": {
+                    "$ref": "#/definitions/model.JarakSungai"
+                },
+                "jarak_tpa": {
+                    "$ref": "#/definitions/model.JarakTPA"
+                },
+                "partisipasi_masyarakat": {
+                    "$ref": "#/definitions/model.PartisipasiMasyarakat"
+                },
+                "timbulan_sampah": {
+                    "$ref": "#/definitions/model.TimbulanSampah"
+                }
+            }
+        },
+        "model.TimbulanSampah": {
+            "type": "object",
+            "properties": {
+                "daerah_komersil": {
+                    "type": "number"
+                },
+                "daerah_perumahan_teratur": {
+                    "type": "number"
+                },
+                "daerah_perumahan_tidak_teratur": {
+                    "type": "number"
+                },
+                "industri": {
+                    "type": "number"
+                },
+                "jalan": {
+                    "type": "number"
+                },
+                "pairwise": {
+                    "$ref": "#/definitions/model.Pairwise"
+                },
+                "pusat_kota": {
                     "type": "number"
                 }
             }

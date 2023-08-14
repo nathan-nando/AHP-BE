@@ -1,4 +1,4 @@
-package ahp
+package criteria
 
 import (
 	"ahp-be/internal/model"

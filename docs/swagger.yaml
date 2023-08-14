@@ -461,6 +461,17 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  model.Aksesibilitas:
+    properties:
+      layak:
+        type: number
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
+      sangat_layak:
+        type: number
+      tidak_layak:
+        type: number
+    type: object
   model.AlternativeModel:
     properties:
       aksesibilitas:
@@ -499,6 +510,21 @@ definitions:
         $ref: '#/definitions/model.ScoreModel'
       timbulan_sampah:
         type: string
+    type: object
+  model.CakupanRumah:
+    properties:
+      cakupan_1:
+        type: number
+      cakupan_2:
+        type: number
+      cakupan_3:
+        type: number
+      cakupan_4:
+        type: number
+      cakupan_5:
+        type: number
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
     type: object
   model.CollectionModel:
     properties:
@@ -560,6 +586,81 @@ definitions:
       rank:
         type: integer
     type: object
+  model.JarakPemukiman:
+    properties:
+      jarak_1:
+        type: number
+      jarak_2:
+        type: number
+      jarak_3:
+        type: number
+      jarak_4:
+        type: number
+      jarak_5:
+        type: number
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
+    type: object
+  model.JarakSungai:
+    properties:
+      cukup_layak:
+        type: number
+      kurang_layak:
+        type: number
+      layak:
+        type: number
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
+      sangat_layak:
+        type: number
+      tidak_layak:
+        type: number
+    type: object
+  model.JarakTPA:
+    properties:
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
+      pelayanan_intensif:
+        type: number
+      pelayanan_menengah:
+        type: number
+      pelayanan_rendah:
+        type: number
+    type: object
+  model.Pairwise:
+    properties:
+      pairwise:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+      pairwise_after_calculated:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+      weights:
+        items:
+          type: number
+        type: array
+    type: object
+  model.PartisipasiMasyarakat:
+    properties:
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
+      partisipasi_1:
+        type: number
+      partisipasi_2:
+        type: number
+      partisipasi_3:
+        type: number
+      partisipasi_4:
+        type: number
+      partisipasi_5:
+        type: number
+    type: object
   model.ScoreModel:
     properties:
       aksesibilitas:
@@ -589,6 +690,40 @@ definitions:
       partisipasi_masyarakat:
         type: number
       timbulan_sampah:
+        type: number
+    type: object
+  model.SubCriteria:
+    properties:
+      aksesibilitas:
+        $ref: '#/definitions/model.Aksesibilitas'
+      cakupan_rumah:
+        $ref: '#/definitions/model.CakupanRumah'
+      jarak_pemukiman:
+        $ref: '#/definitions/model.JarakPemukiman'
+      jarak_sungai:
+        $ref: '#/definitions/model.JarakSungai'
+      jarak_tpa:
+        $ref: '#/definitions/model.JarakTPA'
+      partisipasi_masyarakat:
+        $ref: '#/definitions/model.PartisipasiMasyarakat'
+      timbulan_sampah:
+        $ref: '#/definitions/model.TimbulanSampah'
+    type: object
+  model.TimbulanSampah:
+    properties:
+      daerah_komersil:
+        type: number
+      daerah_perumahan_teratur:
+        type: number
+      daerah_perumahan_tidak_teratur:
+        type: number
+      industri:
+        type: number
+      jalan:
+        type: number
+      pairwise:
+        $ref: '#/definitions/model.Pairwise'
+      pusat_kota:
         type: number
     type: object
   response.Meta:
@@ -632,7 +767,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Get All Criteria Alternative
       tags:
-      - AHP
+      - Criteria
     patch:
       consumes:
       - application/json
@@ -661,7 +796,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Update Criteria Alternative
       tags:
-      - AHP
+      - Criteria
   /ahp/criteria/check:
     get:
       consumes:
@@ -688,7 +823,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Check Consistency Ratio
       tags:
-      - AHP
+      - Criteria
   /ahp/final_scores/{collection_id}:
     get:
       consumes:
@@ -717,7 +852,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Get Final Scores
       tags:
-      - AHP
+      - Criteria
   /ahp/final_scores/calculate/{collection_id}:
     get:
       consumes:
@@ -746,7 +881,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Calculate Final Scores
       tags:
-      - AHP
+      - Criteria
   /ahp/point/calculate/{collection_id}:
     get:
       consumes:
@@ -775,7 +910,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Calculate Alternative to Point
       tags:
-      - AHP
+      - Criteria
   /ahp/scores/{collection_id}:
     get:
       consumes:
@@ -804,7 +939,7 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Get Scores
       tags:
-      - AHP
+      - Criteria
   /ahp/scores/calculate/{collection_id}:
     get:
       consumes:
@@ -833,7 +968,88 @@ paths:
             $ref: '#/definitions/response.errorResponse'
       summary: Calculate Scores
       tags:
-      - AHP
+      - Criteria
+  /ahp/sub-criteria:
+    get:
+      consumes:
+      - application/json
+      description: Get All Criteria
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get All Sub Criteria
+      tags:
+      - SubCriteria
+    patch:
+      consumes:
+      - application/json
+      description: Update Sub Criteria by Mode
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.SubCriteria'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update Sub Criteria by Mode
+      tags:
+      - SubCriteria
+  /ahp/sub-criteria/check/{mode}:
+    get:
+      consumes:
+      - application/json
+      description: Check Consistency Ratio
+      parameters:
+      - description: mode
+        in: path
+        name: mode
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Check Consistency Ratio
+      tags:
+      - SubCriteria
   /alternative:
     patch:
       consumes:
