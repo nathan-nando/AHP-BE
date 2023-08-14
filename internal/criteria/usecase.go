@@ -1,14 +1,14 @@
-package ahp
+package criteria
 
 import (
-	"ahp-be/internal/ahp/dto"
+	"ahp-be/internal/criteria/dto"
 	"ahp-be/internal/model"
 	"context"
 )
 
 type UseCase interface {
-	FindCriteria(ctx context.Context) (*model.Criteria, error)
-	UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdateRequest) (*model.Criteria, error)
+	FindCriteria(ctx context.Context) (*model.Pairwise, error)
+	UpdateCriteria(ctx context.Context, payload *dto.CriteriaUpdateRequest) (*model.Pairwise, error)
 	CheckConsistencyRatio(ctx context.Context) (bool, error)
 
 	FindScoresByCollectionID(ctx context.Context, collectionID *string) ([]model.AlternativeModel, error)

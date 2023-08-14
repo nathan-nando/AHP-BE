@@ -1,10 +1,10 @@
-package ahp
+package criteria
 
 import (
-	"ahp-be/internal/ahp"
-	"ahp-be/internal/ahp/dto"
-	"ahp-be/internal/ahp/usecase"
 	"ahp-be/internal/alternative"
+	"ahp-be/internal/criteria"
+	"ahp-be/internal/criteria/dto"
+	"ahp-be/internal/criteria/usecase"
 	"ahp-be/pkg/response"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -14,7 +14,7 @@ type Handler struct {
 	service *usecase.Service
 }
 
-func NewHandler(repo ahp.Repository, repoAlternative alternative.Repository, db *gorm.DB) *Handler {
+func NewHandler(repo criteria.Repository, repoAlternative alternative.Repository, db *gorm.DB) *Handler {
 	service := usecase.New(repo, repoAlternative, db)
 	return &Handler{service}
 }
@@ -22,7 +22,7 @@ func NewHandler(repo ahp.Repository, repoAlternative alternative.Repository, db 
 // GetCriteria
 // @Summary Get All Criteria Alternative
 // @Description Get ALl Criteria Alternative
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Failure 400 {object} response.errorResponse
@@ -43,7 +43,7 @@ func (h *Handler) GetCriteria(c echo.Context) error {
 // CheckConsistencyRatio
 // @Summary Check Consistency Ratio
 // @Description Check Consistency Ratio
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.CheckConsistencyRatioResponseDoc
@@ -65,7 +65,7 @@ func (h *Handler) CheckConsistencyRatio(c echo.Context) error {
 // GetScores
 // @Summary Get Scores
 // @Description Get Scores
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Param collection_id path string true "collection_id path"
@@ -96,7 +96,7 @@ func (h *Handler) GetScores(c echo.Context) error {
 // GetFinalScores
 // @Summary Get Final Scores
 // @Description Get Final Scores
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Param collection_id path string true "collection_id path"
@@ -127,7 +127,7 @@ func (h *Handler) GetFinalScores(c echo.Context) error {
 // UpdateCriteriaAlternative
 // @Summary Update Criteria Alternative
 // @Description Update Criteria Alternative
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Param request body dto.CriteriaUpdateRequest true "request body"
@@ -157,7 +157,7 @@ func (h *Handler) UpdateCriteriaAlternative(c echo.Context) error {
 // CalculateAlternativeToPoint
 // @Summary Calculate Alternative to Point
 // @Description Calculate Alternative to Point
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Param collection_id path string true "collection_id path"
@@ -189,7 +189,7 @@ func (h *Handler) CalculateAlternativeToPoint(c echo.Context) error {
 // CalculateScores
 // @Summary Calculate Scores
 // @Description Calculate Scores
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Param collection_id path string true "collection_id path"
@@ -220,7 +220,7 @@ func (h *Handler) CalculateScores(c echo.Context) error {
 // CalculateFinalScores
 // @Summary Calculate Final Scores
 // @Description Calculate Final Scores
-// @Tags AHP
+// @Tags Criteria
 // @Accept json
 // @Produce json
 // @Param collection_id path string true "collection_id path"

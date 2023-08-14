@@ -1,5 +1,11 @@
 package ahp
 
+import (
+	"ahp-be/internal/model"
+	"encoding/json"
+	"os"
+)
+
 type SubCriteria map[string]float64
 
 func GetRatioIndex() [15]float64 {
@@ -110,4 +116,12 @@ func AksesibilitasSubCriteria(str string) float64 {
 	} else {
 		return 0
 	}
+}
+
+func CreateSubCriteriaFile() {
+	data := model.SubCriteria{}
+
+	file, _ := json.MarshalIndent(data, "", "")
+
+	_ = os.WriteFile("assets/subCriteria.json", file, 0644)
 }

@@ -1,4 +1,4 @@
-package ahp
+package criteria
 
 import "github.com/labstack/echo/v4"
 

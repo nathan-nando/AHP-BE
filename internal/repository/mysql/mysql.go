@@ -2,12 +2,14 @@ package mysql
 
 import (
 	"ahp-be/config"
-	"ahp-be/internal/ahp"
-	repoAHPMySQL "ahp-be/internal/ahp/repository/mysql"
 	"ahp-be/internal/alternative"
 	repoAlternativeMySQL "ahp-be/internal/alternative/repository/mysql"
 	"ahp-be/internal/collection"
 	repoCollectionMySQL "ahp-be/internal/collection/repository/mysql"
+	"ahp-be/internal/criteria"
+	repoCriteriaMySQL "ahp-be/internal/criteria/repository/mysql"
+	"ahp-be/internal/subCriteria"
+	repoSubCriteriaMySQL "ahp-be/internal/subCriteria/repository/mysql"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
@@ -51,6 +53,10 @@ func (r *RepositoryMysqlImpl) AlternativeRepository() alternative.Repository {
 	return repoAlternativeMySQL.New(r.Db)
 }
 
-func (r *RepositoryMysqlImpl) AHPRepository() ahp.Repository {
-	return repoAHPMySQL.New(r.Db)
+func (r *RepositoryMysqlImpl) CriteriaRepository() criteria.Repository {
+	return repoCriteriaMySQL.New(r.Db)
+}
+
+func (r *RepositoryMysqlImpl) SubCriteriaRepository() subCriteria.Repository {
+	return repoSubCriteriaMySQL.New(r.Db)
 }
