@@ -149,7 +149,7 @@ func CreateSubCriteriaFile() {
 }
 
 func ReadSubCriteriaFile() (*model.SubCriteria, error) {
-	jsonFile, err := os.ReadFile(constants.FileSubCriteriaPKG)
+	jsonFile, err := os.ReadFile(constants.FileSubCriteria)
 
 	if err != nil {
 		return nil, err
