@@ -1,39 +1,51 @@
 package ahp
 
 import (
-	"github.com/magiconair/properties/assert"
+	"github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
+func TestReadSubCriteriaFile(t *testing.T) {
+	data, err := ReadSubCriteriaFile()
+	if err != nil {
+		logrus.Error(err)
+	}
+	logrus.Info(data.TimbulanSampah.DaerahPerumahanTeratur)
+}
+
 func TestTimbulanSampahSubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	TS := data.TimbulanSampah
+
 	tests := []struct {
 		name     string
 		request  string
 		expected float64
 	}{{
-		name:     "jaringan jalan",
-		request:  "jaringan jalan",
-		expected: jaringanJalan,
+		name:     "daerah di jalan protokol pusat kota",
+		request:  "daerah di jalan protokol pusat kota",
+		expected: TS.PusatKota,
 	}, {
-		name:     "perumahan",
-		request:  "perumahan",
-		expected: perumahan,
+		name:     "daerah komersil",
+		request:  "daerah komersil",
+		expected: TS.DaerahKomersil,
 	}, {
-		name:     "fasilitas komersial",
-		request:  "fasilitas komersial",
-		expected: fasilitasKomersial,
+		name:     "daerah perumahan teratur",
+		request:  "daerah perumahan teratur",
+		expected: TS.DaerahPerumahanTeratur,
 	}, {
-		name:     "fasilitas umum",
-		request:  "fasilitas umum",
-		expected: fasilitasUmum,
+		name:     "daerah industri",
+		request:  "daerah industri",
+		expected: TS.Industri,
 	}, {
-		name:     "fasilitas sosial",
-		request:  "fasilitas sosial",
-		expected: fasilitasSosial,
+		name:     "jalan taman dan hutan kota",
+		request:  "jalan taman dan hutan kota",
+		expected: TS.Jalan,
 	}, {
-		name:     "ruang terbuka",
-		request:  "ruang terbuka",
-		expected: ruangTerbuka,
+		name:     "daerah perumahan tidak teratur",
+		request:  "daerah perumahan tidak teratur",
+		expected: TS.DaerahPerumahanTidakTeratur,
 	}}
 
 	for _, test := range tests {
@@ -45,22 +57,25 @@ func TestTimbulanSampahSubCriteria(t *testing.T) {
 }
 
 func TestJarakTPASubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	test := data.JarakTPA
+
 	tests := []struct {
 		name     string
 		request  string
 		expected float64
 	}{{
-		name:     "alternatif berada di jangkauan layanan tpa",
-		request:  "alternatif berada di jangkauan layanan tpa",
-		expected: alternatifJangkauanTPA,
+		name:     "pelayanan intensif",
+		request:  "pelayanan intensif",
+		expected: test.PelayananIntensif,
 	}, {
-		name:     "alternatif berada di batas terjauh jangkauan layanan tpa",
-		request:  "alternatif berada di batas terjauh jangkauan layanan tpa",
-		expected: alternatifBatasTerjauhTPA,
+		name:     "pelayanan menengah",
+		request:  "pelayanan menengah",
+		expected: test.PelayananMenengah,
 	}, {
-		name:     "alternatif tidak berada di jangkauan tpa",
-		request:  "alternatif tidak berada di jangkauan tpa",
-		expected: alternatifBukanJangkauanTPA,
+		name:     "pelayanan rendah",
+		request:  "pelayanan rendah",
+		expected: test.PelayananRendah,
 	}}
 
 	for _, test := range tests {
@@ -72,6 +87,9 @@ func TestJarakTPASubCriteria(t *testing.T) {
 }
 
 func TestJarakPemukimanSubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	test := data.JarakPemukiman
+
 	tests := []struct {
 		name     string
 		request  float64
@@ -79,43 +97,43 @@ func TestJarakPemukimanSubCriteria(t *testing.T) {
 	}{{
 		name:     "jarak pemukiman >= 0 && <= 100",
 		request:  1,
-		expected: jarak1,
+		expected: test.Jarak1,
 	}, {
 		name:     "jarak pemukiman >= 0 && <= 100",
 		request:  100,
-		expected: jarak1,
+		expected: test.Jarak1,
 	}, {
 		name:     "jarak pemukiman >= 101 && <= 200",
 		request:  101,
-		expected: jarak2,
+		expected: test.Jarak2,
 	}, {
 		name:     "jarak pemukiman >= 101 && <= 200",
 		request:  200,
-		expected: jarak2,
+		expected: test.Jarak2,
 	}, {
 		name:     "jarak pemukiman >= 201 && <= 300",
 		request:  201,
-		expected: jarak3,
+		expected: test.Jarak3,
 	}, {
 		name:     "jarak pemukiman >= 201 && <= 300",
 		request:  300,
-		expected: jarak3,
+		expected: test.Jarak3,
 	}, {
 		name:     "jarak pemukiman >= 301 && <= 401",
 		request:  301,
-		expected: jarak4,
+		expected: test.Jarak4,
 	}, {
 		name:     "jarak pemukiman >= 301 && <= 400",
 		request:  400,
-		expected: jarak4,
+		expected: test.Jarak4,
 	}, {
 		name:     "jarak pemukiman >= 401 && <= 500",
 		request:  401,
-		expected: jarak5,
+		expected: test.Jarak5,
 	}, {
 		name:     "jarak pemukiman >= 401 && <= 500",
 		request:  500,
-		expected: jarak5,
+		expected: test.Jarak5,
 	}}
 
 	for _, test := range tests {
@@ -127,22 +145,33 @@ func TestJarakPemukimanSubCriteria(t *testing.T) {
 }
 
 func TestJarakSungaiSubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	test := data.JarakSungai
+
 	tests := []struct {
 		name     string
 		request  string
 		expected float64
 	}{{
-		name:     "lokasi memenuhi peli banjir",
-		request:  "lokasi memenuhi peli banjir",
-		expected: memenuhiPeliBanjir,
+		name:     "sangat layak",
+		request:  "sangat layak",
+		expected: test.SangatLayak,
 	}, {
-		name:     "lokasi memenuhi sebagian peli banjir",
-		request:  "lokasi memenuhi sebagian peli banjir",
-		expected: memenuhiSebagianPeliBanjir,
+		name:     "layak",
+		request:  "layak",
+		expected: test.Layak,
 	}, {
-		name:     "lokasi tidak memenuhi peli banjir",
-		request:  "lokasi tidak memenuhi peli banjir",
-		expected: tidakMemenuhiPeliBanjir,
+		name:     "cukup layak",
+		request:  "cukup layak",
+		expected: test.CukupLayak,
+	}, {
+		name:     "kurang layak",
+		request:  "kurang layak",
+		expected: test.KurangLayak,
+	}, {
+		name:     "tidak layak",
+		request:  "tidak layak",
+		expected: test.TidakLayak,
 	}}
 
 	for _, test := range tests {
@@ -154,6 +183,9 @@ func TestJarakSungaiSubCriteria(t *testing.T) {
 }
 
 func TestPartisipasiMasyarakatSubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	test := data.PartisipasiMasyarakat
+
 	tests := []struct {
 		name     string
 		request  float64
@@ -161,43 +193,43 @@ func TestPartisipasiMasyarakatSubCriteria(t *testing.T) {
 	}{{
 		name:     "partisipasi masyarakat <= 20",
 		request:  1,
-		expected: partisipasi1,
+		expected: test.Partisipasi1,
 	}, {
 		name:     "partisipasi masyarakat <= 20",
 		request:  20,
-		expected: partisipasi1,
+		expected: test.Partisipasi1,
 	}, {
 		name:     "partisipasi masyarakat >= 21 && <= 40",
 		request:  21,
-		expected: partisipasi2,
+		expected: test.Partisipasi2,
 	}, {
 		name:     "partisipasi masyarakat >= 21 && <= 40",
 		request:  40,
-		expected: partisipasi2,
+		expected: test.Partisipasi2,
 	}, {
 		name:     "partisipasi masyarakat >= 41 && <= 60",
 		request:  41,
-		expected: partisipasi3,
+		expected: test.Partisipasi3,
 	}, {
 		name:     "partisipasi masyarakat >= 41 && <= 60",
 		request:  60,
-		expected: partisipasi3,
+		expected: test.Partisipasi3,
 	}, {
 		name:     "partisipasi masyarakat >= 61 && <= 80",
 		request:  61,
-		expected: partisipasi4,
+		expected: test.Partisipasi4,
 	}, {
 		name:     "partisipasi masyarakat >= 61 && <= 80",
 		request:  80,
-		expected: partisipasi4,
+		expected: test.Partisipasi4,
 	}, {
 		name:     "partisipasi masyarakat >= 81",
 		request:  81,
-		expected: partisipasi5,
+		expected: test.Partisipasi5,
 	}, {
 		name:     "partisipasi masyarakat >= 81",
 		request:  100,
-		expected: partisipasi5,
+		expected: test.Partisipasi5,
 	}}
 
 	for _, test := range tests {
@@ -209,6 +241,9 @@ func TestPartisipasiMasyarakatSubCriteria(t *testing.T) {
 }
 
 func TestCakupanRumahSubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	test := data.CakupanRumah
+
 	tests := []struct {
 		name     string
 		request  float64
@@ -216,43 +251,43 @@ func TestCakupanRumahSubCriteria(t *testing.T) {
 	}{{
 		name:     "cakupan rumah <= 40",
 		request:  1,
-		expected: cakupan1,
+		expected: test.Cakupan1,
 	}, {
 		name:     "cakupan rumah <= 40",
 		request:  40,
-		expected: cakupan1,
+		expected: test.Cakupan1,
 	}, {
 		name:     "cakupan rumah >= 41 && <= 80",
 		request:  41,
-		expected: cakupan2,
+		expected: test.Cakupan2,
 	}, {
 		name:     "cakupan rumah >= 41 && <= 80",
 		request:  80,
-		expected: cakupan2,
+		expected: test.Cakupan2,
 	}, {
 		name:     "cakupan rumah >= 81 && <= 120",
 		request:  81,
-		expected: cakupan3,
+		expected: test.Cakupan3,
 	}, {
 		name:     "cakupan rumah >= 81 && <= 120",
 		request:  120,
-		expected: cakupan3,
+		expected: test.Cakupan3,
 	}, {
 		name:     "cakupan rumah >= 121 && <= 160",
 		request:  121,
-		expected: cakupan4,
+		expected: test.Cakupan4,
 	}, {
 		name:     "cakupan rumah >= 121 && <= 160",
 		request:  160,
-		expected: cakupan4,
+		expected: test.Cakupan4,
 	}, {
 		name:     "cakupan rumah >= 161",
 		request:  161,
-		expected: cakupan5,
+		expected: test.Cakupan5,
 	}, {
 		name:     "cakupan rumah >= 161",
 		request:  200,
-		expected: cakupan5,
+		expected: test.Cakupan5,
 	}}
 
 	for _, test := range tests {
@@ -264,22 +299,25 @@ func TestCakupanRumahSubCriteria(t *testing.T) {
 }
 
 func TestAksesibilitasSubCriteria(t *testing.T) {
+	data, _ := ReadSubCriteriaFile()
+	test := data.Aksesibilitas
+
 	tests := []struct {
 		name     string
 		request  string
 		expected float64
 	}{{
-		name:     "kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah",
-		request:  "kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah",
-		expected: jalanBagus,
+		name:     "sangat layak",
+		request:  "sangat layak",
+		expected: test.SangatLayak,
 	}, {
-		name:     "kondisi jalan bagus, tetapi tidak bisa dilewati kendaraan pengangkut sampah atau jalan tidak bagus, tetapi bisa dilewati kendaraan pengangkut sampah",
-		request:  "kondisi jalan bagus, tetapi tidak bisa dilewati kendaraan pengangkut sampah atau jalan tidak bagus, tetapi bisa dilewati kendaraan pengangkut sampah",
-		expected: jalanBagusTapi,
+		name:     "layak",
+		request:  "layak",
+		expected: test.Layak,
 	}, {
-		name:     "kondisi jalan tidak bagus dan tidak bisa dilewati kendaraan pengangkut sampah",
-		request:  "kondisi jalan tidak bagus dan tidak bisa dilewati kendaraan pengangkut sampah",
-		expected: jalanTidakBagus,
+		name:     "tidak layak",
+		request:  "tidak layak",
+		expected: test.TidakLayak,
 	}}
 
 	for _, test := range tests {

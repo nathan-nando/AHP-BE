@@ -19,7 +19,7 @@ type SubCriteria struct {
 }
 
 type TimbulanSampah struct {
-	Pairwise                    Pairwise `json:"pairwise"`
+	Pairwise                    Pairwise `json:"pairw ise"`
 	PusatKota                   float64  `json:"pusat_kota"`
 	DaerahKomersil              float64  `json:"daerah_komersil"`
 	DaerahPerumahanTeratur      float64  `json:"daerah_perumahan_teratur"`

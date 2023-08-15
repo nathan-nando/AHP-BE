@@ -2,6 +2,7 @@ package ahp
 
 import (
 	"ahp-be/internal/model"
+	"ahp-be/pkg/constants"
 	"encoding/json"
 	"os"
 )
@@ -13,106 +14,127 @@ func GetRatioIndex() [15]float64 {
 }
 
 func TimbulanSampahSubCriteria(str string) float64 {
+	data, _ := ReadSubCriteriaFile()
+	timbulanSampah := data.TimbulanSampah
+
 	if str == "daerah di jalan protokol pusat kota" {
-		return pusatKota
+		return timbulanSampah.PusatKota
 	} else if str == "daerah komersil" {
-		return komersil
+		return timbulanSampah.DaerahKomersil
 	} else if str == "daerah perumahan teratur" {
-		return perumahanTeratur
+		return timbulanSampah.DaerahPerumahanTeratur
 	} else if str == "daerah industri" {
-		return industri
+		return timbulanSampah.Industri
 	} else if str == "jalan taman dan hutan kota" {
-		return jalan
+		return timbulanSampah.Jalan
 	} else if str == "daerah perumahan tidak teratur" {
-		return perumahanTidakTeratur
+		return timbulanSampah.DaerahPerumahanTidakTeratur
 	} else {
 		return 0
 	}
 }
 
 func JarakTPASubCriteria(str string) float64 {
+	data, _ := ReadSubCriteriaFile()
+	jarakTPA := data.JarakTPA
+
 	if str == "pelayanan intensif" {
-		return pelayananIntensif
+		return jarakTPA.PelayananIntensif
 	} else if str == "pelayanan menengah" {
-		return pelayananMenengah
+		return jarakTPA.PelayananMenengah
 	} else if str == "pelayanan rendah" {
-		return PelayananRendah
+		return jarakTPA.PelayananRendah
 	} else {
 		return 0
 	}
 }
 
 func JarakPemukimanSubCriteria(num float64) float64 {
+	data, _ := ReadSubCriteriaFile()
+	jarakPemukiman := data.JarakPemukiman
+
 	if num >= 0 && num <= 100 {
-		return jarak1
+		return jarakPemukiman.Jarak1
 	} else if num >= 101 && num <= 200 {
-		return jarak2
+		return jarakPemukiman.Jarak2
 	} else if num >= 201 && num <= 300 {
-		return jarak3
+		return jarakPemukiman.Jarak3
 	} else if num >= 301 && num <= 400 {
-		return jarak4
+		return jarakPemukiman.Jarak4
 	} else if num >= 401 && num <= 500 {
-		return jarak5
+		return jarakPemukiman.Jarak5
 	} else {
 		return 0
 	}
 }
 
 func JarakSungaiSubCriteria(str string) float64 {
+	data, _ := ReadSubCriteriaFile()
+	jarakSungai := data.JarakSungai
+
 	if str == "sangat layak" {
-		return sungaiSangatLayak
+		return jarakSungai.SangatLayak
 	} else if str == "layak" {
-		return sungaiLayak
+		return jarakSungai.Layak
 	} else if str == "cukup layak" {
-		return sungaiCukupLayak
+		return jarakSungai.CukupLayak
 	} else if str == "kurang layak" {
-		return sungaiKurangLayak
+		return jarakSungai.KurangLayak
 	} else if str == "tidak layak" {
-		return sungaiTidakLayak
+		return jarakSungai.TidakLayak
 	} else {
 		return 0
 	}
 }
 
 func PartisipasiMasyarakatSubCriteria(num float64) float64 {
+	data, _ := ReadSubCriteriaFile()
+	PM := data.PartisipasiMasyarakat
+
 	if num <= 20 {
-		return partisipasi1
+		return PM.Partisipasi1
 	} else if num >= 21 && num <= 40 {
-		return partisipasi2
+		return PM.Partisipasi2
 	} else if num >= 41 && num <= 60 {
-		return partisipasi3
+		return PM.Partisipasi3
 	} else if num >= 61 && num <= 80 {
-		return partisipasi4
+		return PM.Partisipasi4
 	} else if num >= 81 {
-		return partisipasi5
+		return PM.Partisipasi5
 	} else {
 		return 0
 	}
 }
 
 func CakupanRumahSubCriteria(num float64) float64 {
+	data, _ := ReadSubCriteriaFile()
+	CR := data.CakupanRumah
+
 	if num <= 40 {
-		return cakupan1
+		return CR.Cakupan1
 	} else if num >= 41 && num <= 80 {
-		return cakupan2
+		return CR.Cakupan2
 	} else if num >= 81 && num <= 120 {
-		return cakupan3
+		return CR.Cakupan3
 	} else if num >= 121 && num <= 160 {
-		return cakupan4
+		return CR.Cakupan4
 	} else if num >= 161 {
-		return cakupan5
+		return CR.Cakupan5
 	} else {
 		return 0
 	}
 }
 
 func AksesibilitasSubCriteria(str string) float64 {
+	data, _ := ReadSubCriteriaFile()
+	aksesibilitas := data.Aksesibilitas
+
 	if str == "sangat layak" {
-		return aksesibilitasSangatLayak
+		return aksesibilitas.SangatLayak
 	} else if str == "layak" {
-		return aksesibilitasLayak
+		return aksesibilitas.Layak
 	} else if str == "tidak layak" {
-		return aksesibilitasTidakLayak
+		return aksesibilitas.TidakLayak
 	} else {
 		return 0
 	}
@@ -123,5 +145,22 @@ func CreateSubCriteriaFile() {
 
 	file, _ := json.MarshalIndent(data, "", "")
 
-	_ = os.WriteFile("assets/subCriteria.json", file, 0644)
+	_ = os.WriteFile(constants.FileSubCriteria, file, 0644)
+}
+
+func ReadSubCriteriaFile() (*model.SubCriteria, error) {
+	jsonFile, err := os.ReadFile(constants.FileSubCriteriaPKG)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var data model.SubCriteria
+
+	err = json.Unmarshal(jsonFile, &data)
+	if err != nil {
+		return nil, err
+	}
+
+	return &data, nil
 }
