@@ -995,7 +995,7 @@ paths:
     patch:
       consumes:
       - application/json
-      description: Update Sub Criteria by Mode
+      description: Update Sub Criteria
       parameters:
       - description: request body
         in: body
@@ -1018,14 +1018,14 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Update Sub Criteria by Mode
+      summary: Update Sub Criteria
       tags:
       - SubCriteria
   /ahp/sub-criteria/check/{mode}:
     get:
       consumes:
       - application/json
-      description: Check Consistency Ratio
+      description: Check Consistency Ratio By MODE
       parameters:
       - description: mode
         in: path
@@ -1047,7 +1047,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Check Consistency Ratio
+      summary: Check Consistency Ratio By MODE
       tags:
       - SubCriteria
   /alternative:

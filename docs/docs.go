@@ -391,7 +391,7 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update Sub Criteria by Mode",
+                "description": "Update Sub Criteria",
                 "consumes": [
                     "application/json"
                 ],
@@ -401,7 +401,7 @@ const docTemplate = `{
                 "tags": [
                     "SubCriteria"
                 ],
-                "summary": "Update Sub Criteria by Mode",
+                "summary": "Update Sub Criteria",
                 "parameters": [
                     {
                         "description": "request body",
@@ -437,7 +437,7 @@ const docTemplate = `{
         },
         "/ahp/sub-criteria/check/{mode}": {
             "get": {
-                "description": "Check Consistency Ratio",
+                "description": "Check Consistency Ratio By MODE",
                 "consumes": [
                     "application/json"
                 ],
@@ -447,7 +447,7 @@ const docTemplate = `{
                 "tags": [
                     "SubCriteria"
                 ],
-                "summary": "Check Consistency Ratio",
+                "summary": "Check Consistency Ratio By MODE",
                 "parameters": [
                     {
                         "type": "string",
