@@ -41,8 +41,8 @@ func (h *Handler) GetSubCriteria(c echo.Context) error {
 }
 
 // UpdateSubCriteria
-// @Summary Update Sub Criteria by Mode
-// @Description Update Sub Criteria by Mode
+// @Summary Update Sub Criteria
+// @Description Update Sub Criteria
 // @Tags SubCriteria
 // @Accept json
 // @Produce json
@@ -72,8 +72,8 @@ func (h *Handler) UpdateSubCriteria(c echo.Context) error {
 }
 
 // CheckConsistencyRatio
-// @Summary Check Consistency Ratio
-// @Description Check Consistency Ratio
+// @Summary Check Consistency Ratio By MODE
+// @Description Check Consistency Ratio By MODE
 // @Tags SubCriteria
 // @Accept json
 // @Produce json
